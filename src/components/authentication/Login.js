@@ -6,7 +6,6 @@ import {useForm} from "react-hook-form";
 
 const Login = () => {
 
-
   const { register, formState: { errors }, handleSubmit } = useForm({ mode: 'onBlur' });
 
   return (
