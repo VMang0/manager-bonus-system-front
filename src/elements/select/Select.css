@@ -12,7 +12,7 @@
   border-radius: 18px;
   border: none;
   padding: 11px 16px;
-  color: #592A92;
+  color: var(--dark-blue-2);
   font-size: 15px;
   position: relative;
 }
@@ -36,14 +36,14 @@
 .options li {
   padding: 11px 16px;
   cursor: pointer;
-  color: #592A92;
+  color: var(--dark-blue-2);
   font-size: 15px;
 }
 
 .options li:hover {
-  background-color: #d7c4ee;
+  background-color: var(--grey-light-1);
 }
 .options li:last-child:hover{
   border-radius: 0 0 18px 18px;
-  background-color: #d7c4ee;
+  background-color: var(--grey-light-1);
 }

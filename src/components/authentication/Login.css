@@ -1,5 +1,6 @@
 .login{
-  background-image: url("../../images/log-reg/log_reg_background.jpeg");
+  background-image:
+          url("../../images/log-reg/windows-11-bloom-collection-blue-background-blue-abstract-3840x2160-9066.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -17,7 +18,7 @@
 }
 .auth-form h1{
   height: 50px;
-  color: #592A92;
+  color: var(--dark-blue);
   font-size: 43px;
   text-align: center;
 }
@@ -28,7 +29,7 @@
   border-radius: 18px;
   border: none;
   padding: 11px 16px;
-  color: #592A92;
+  color: var(--dark-blue-2);
   font-size: 15px;
 }
 .margin-input-auth{
@@ -37,16 +38,16 @@
 }
 
 .auth-form button:hover{
-  background-color: #351957;
+  background-color: var(--dark-blue-2);
 }
 .auth-form a{
-  color: #592A92;
+  color: var(--dark-blue);
   font-size: 15px;
   height: 18px;
 }
 .auth-form a:hover{
-  color: #351957;
+  color: var(--dark-blue-2);
 }
 .margin-input-auth .error-input{
-  border: 1px solid #922a30;
+  border: 1px solid var(--error);
 }

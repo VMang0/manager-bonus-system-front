@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
-
+*{
+  --grey-light-1: #EBEBEB;
+  --grey-light-2: #D5D5D5;
+  --grey: #C0C0C0;
+  --yellow: #FAC000;
+  --blue: #3E6AD8;
+  --dark-blue: #164D80;
+  --dark-blue-2: #0F3559;
+  --black: #222222;
+  --error: red;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -65,7 +75,7 @@ input:-webkit-autofill:active  {
 .btn_purple_medium {
   width: 200px;
   height: 50px;
-  background: #592A92;
+  background: #164D80;
   border-radius: 18px;
   color: white;
   font-size: 20px;
@@ -80,7 +90,7 @@ input:-webkit-autofill:active  {
   position: absolute;
   z-index: 2;
   font-size: 14px;
-  color: #922a30;
+  color: red;
 }
 
 .margin-b-10{
