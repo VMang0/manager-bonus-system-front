@@ -312,8 +312,12 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
-  const [mode, setMode] = useState('light');
-
+  const localStorage = window.localStorage;
+  const themeMode = !JSON.parse(localStorage.getItem('isThemeDark'))
+    ? 'light'
+    : 'dark';
+  const [mode, setMode] = useState(themeMode);
+  console.log(Boolean(false));
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () =>

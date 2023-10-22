@@ -14,10 +14,13 @@ import { ColorModeContext } from '../../theme';
 const ToggleComponent = ({ isOpen }) => {
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
-  const [isDark, setIsDark] = useState(false);
+  const localStorage = window.localStorage;
+  const themeBoolean = JSON.parse(localStorage.getItem('isThemeDark')) || false;
+  const [isDark, setIsDark] = useState(themeBoolean);
   const changeTheme = () => {
     setIsDark(!isDark);
     colorMode.toggleColorMode();
+    localStorage.setItem('isThemeDark', JSON.stringify(!isDark));
   };
   return (
     <StyledToggleComponent>

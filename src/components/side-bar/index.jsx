@@ -24,8 +24,6 @@ const SideBarComponent = ({ drawerWidth, isOpen, setIsOpen }) => {
   useEffect(() => {
     setActive(pathname);
   }, [pathname]);
-  console.log(active);
-  console.log(navMenu[2].path);
   return (
     <Box component='nav'>
       <DrawerComponent
