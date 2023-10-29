@@ -1,15 +1,45 @@
-import React from 'react';
-import { Box, Grid, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Grid, IconButton, InputBase, Typography } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import BadgeAvatars from '../badge-avatars';
-import { StyledTopBarComponent } from './style';
+import BadgeAvatars from '../avatars/badge-avatars';
+import {
+  ButtonStartProject,
+  StyledProjectsComponent,
+  StyledTopBarComponent,
+} from './style';
+import { Search } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom';
+import { navMenu } from '../../common/moks/navigate';
+import { AddCircle } from '@mui/icons-material';
+import FlexBetween from '../flex-between';
 
 const TopBarComponent = () => {
+  const [activePage, setActivePage] = useState('');
+  const { pathname } = useLocation();
+  useEffect(() => {
+    navMenu.map((item) => {
+      pathname === item.path && setActivePage(item.name);
+    });
+  }, [pathname]);
   return (
     <>
       <StyledTopBarComponent>
-        <Grid>Welcome Valeria</Grid>
+        <FlexBetween>
+          <Typography variant='h1'>{activePage || ''}</Typography>
+          <StyledProjectsComponent>
+            <IconButton className='iconButton'>
+              <Search />
+            </IconButton>
+            <InputBase placeholder='Поиск...' />
+          </StyledProjectsComponent>
+        </FlexBetween>
         <Box className='flex'>
+          {pathname === '/' && (
+            <ButtonStartProject>
+              <AddCircle />
+              <Typography className='btn-text'>Start project</Typography>
+            </ButtonStartProject>
+          )}
           <Grid className='container-notification'>
             <IconButton>
               <NotificationsIcon />
@@ -25,8 +55,3 @@ const TopBarComponent = () => {
 };
 
 export default TopBarComponent;
-
-/* <IconButton sx={{ '&:hover': { background: 'transparent' } }}>
-              <SearchIcon />
-            </IconButton>
-            <InputBase sx={{ px: '18px', py: '10' }} placeholder='Поиск...' /> */
