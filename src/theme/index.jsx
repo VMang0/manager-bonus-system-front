@@ -43,7 +43,7 @@ export const tokens = (mode) => ({
           400: '#D4D4D4',
           300: '#E9E9E9',
           200: '#FDFDFD',
-          100: '#FFFFFF',
+          100: '#f5f5f5',
           50: '#FFFFFF',
         },
         yellow: {
@@ -117,6 +117,11 @@ export const tokens = (mode) => ({
           100: '#FFA3A3',
           50: '#FFB8B8',
         },
+        status: {
+          COMPLETED: '138, 214, 204',
+          INPROGRESS: '116, 119, 169',
+          OFFTRACK: '255, 153, 125',
+        },
       }
     : {
         greyLight1: {
@@ -150,7 +155,7 @@ export const tokens = (mode) => ({
         grey: {
           DEFAULT: '#C0C0C0',
           50: '#FFFFFF',
-          100: '#FFFFFF',
+          100: '#f5f5f5',
           200: '#FDFDFD',
           300: '#E9E9E9',
           400: '#D4D4D4',
@@ -232,6 +237,11 @@ export const tokens = (mode) => ({
           900: '#1F0000',
           950: '#030000',
         },
+        status: {
+          COMPLETED: '138, 214, 204',
+          INPROGRESS: '116, 119, 169',
+          OFFTRACK: '255, 153, 125',
+        },
       }),
 });
 
@@ -247,6 +257,7 @@ export const themeSettings = (mode) => {
             },
             secondary: {
               main: colors.grey['50'],
+              mainReverse: '#131313',
             },
             neutral: {
               main: colors.black['600'],
@@ -263,6 +274,7 @@ export const themeSettings = (mode) => {
             },
             secondary: {
               main: colors.black['950'],
+              mainReverse: colors.grey['50'],
             },
             neutral: {
               main: colors.grey['300'],
@@ -317,7 +329,6 @@ export const useMode = () => {
     ? 'light'
     : 'dark';
   const [mode, setMode] = useState(themeMode);
-  console.log(Boolean(false));
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () =>
