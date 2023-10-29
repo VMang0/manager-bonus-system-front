@@ -8,7 +8,15 @@ export const RootSectionContent = styled(Box)(() => ({
   '.main-section-content': {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
-    justifyContent: 'center',
+    minHeight: '100vh',
+    flex: 1,
   },
+}));
+export const ChoosenPage = styled(Box)(() => ({
+  width: '100%',
+  flex: 1,
+}));
+
+export const LayoutComponentStyled = styled(Box)(() => ({
+  minHeight: '100vh',
 }));
