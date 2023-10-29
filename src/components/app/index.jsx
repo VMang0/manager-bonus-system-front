@@ -5,7 +5,7 @@ import Registration from '../../pages/registration/Registration';
 import { ColorModeContext, useMode } from '../../theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import LayoutComponent from '../layout';
-import Test from '../test';
+import ProjectsComponent from '../projects';
 
 const App = () => {
   const [colorMode, theme] = useMode();
@@ -18,7 +18,7 @@ const App = () => {
             <Route element={<LayoutComponent />}>
               <Route path='/auth' element={<Login />} />
               <Route path='/registration' element={<Registration />} />
-              <Route path='/' element={<Test />} />
+              <Route path='/' element={<ProjectsComponent />} />
             </Route>
           </Routes>
         </div>

@@ -1,6 +1,6 @@
 import { styled } from '@mui/system';
 import { Badge, Box } from '@mui/material';
-import { tokens } from '../../theme';
+import { tokens } from '../../../theme';
 
 export const StyledBadgeAvatars = styled(Box)(({ theme }) => ({
   display: 'flex',

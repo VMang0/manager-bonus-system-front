@@ -20,7 +20,7 @@ export const navMenu = [
     path: '/test',
   },
   {
-    name: 'Главная',
+    name: 'Projects',
     icon: <ShoppingBagOutlined />,
     path: '/',
   },
