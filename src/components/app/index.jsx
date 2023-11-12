@@ -1,30 +1,67 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Login from '../../pages/authentication/Login';
-import Registration from '../../pages/registration/Registration';
+import React, { useContext, useEffect } from 'react';
 import { ColorModeContext, useMode } from '../../theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import LayoutComponent from '../layout';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from '../../index';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import LayoutComponent from '../utils/layout';
 import ProjectsComponent from '../projects';
+import PrivateComponent from '../utils/private-router';
+import Login from '../../components/login';
+import Registration from '../registration';
+import PageNotFound from '../no-page';
+import UsersForActivate from '../users-for-activate';
+import { AlertProvider } from '../../elements/alert';
 
 const App = () => {
   const [colorMode, theme] = useMode();
+  const { store } = useContext(StoreContext);
+  const isRefreshToken = localStorage.getItem('token');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      if (isRefreshToken) {
+        await store.checkAuth();
+        if (!store.isAuth) {
+          navigate('/');
+        }
+      } else {
+        navigate('/');
+      }
+    };
+    checkAuthentication();
+  }, []);
+
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className='App'>
-          <Routes>
-            <Route element={<LayoutComponent />}>
-              <Route path='/auth' element={<Login />} />
-              <Route path='/registration' element={<Registration />} />
-              <Route path='/' element={<ProjectsComponent />} />
-            </Route>
-          </Routes>
-        </div>
-      </ThemeProvider>
+      <AlertProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <div className='App'>
+            <Routes>
+              <Route element={<LayoutComponent />}>
+                <Route
+                  element={
+                    <PrivateComponent
+                      isAuth={store.isAuth}
+                      isActivated={store.user.isActivated}
+                    />
+                  }
+                >
+                  <Route path='/projects' element={<ProjectsComponent />} />
+                  <Route path='/user/activate' element={<UsersForActivate />} />
+                </Route>
+                <Route path='/registration' element={<Registration />} />
+                <Route path='/' element={<Login />} />
+              </Route>
+              <Route path='*' element={<PageNotFound />} />
+            </Routes>
+          </div>
+        </ThemeProvider>
+      </AlertProvider>
     </ColorModeContext.Provider>
   );
 };
 
-export default App;
+export default observer(App);
