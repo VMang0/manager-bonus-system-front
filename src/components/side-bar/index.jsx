@@ -12,10 +12,10 @@ import {
   Typography,
 } from '@mui/material';
 import { DrawerComponent } from './style';
-import FlexBetween from '../flex-between';
+import FlexBetween from '../../style-elements/flex-between';
 import { navMenu } from '../../common/moks/navigate';
 import Logo from '../../static/images/logo';
-import ToggleComponent from '../toggle';
+import ToggleComponent from '../../elements/toggle';
 
 const SideBarComponent = ({ drawerWidth, isOpen, setIsOpen }) => {
   const [active, setActive] = useState('');
