@@ -15,14 +15,14 @@ export const navMenu = [
     path: '/test',
   },
   {
-    name: 'Главная',
+    name: 'Users',
     icon: <PermIdentityOutlined />,
-    path: '/test',
+    path: '/user/activate',
   },
   {
     name: 'Projects',
     icon: <ShoppingBagOutlined />,
-    path: '/',
+    path: '/projects',
   },
   {
     name: 'Главная',
