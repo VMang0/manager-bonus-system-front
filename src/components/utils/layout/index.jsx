@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import SideBarComponent from '../side-bar';
-import TopBarComponent from '../top-bar';
+import SideBarComponent from '../../side-bar';
+import TopBarComponent from '../../top-bar';
 import {
   ChoosenPage,
   LayoutComponentStyled,
@@ -14,8 +14,7 @@ const LayoutComponent = () => {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <LayoutComponentStyled>
-      {location.pathname === '/auth' ||
-      location.pathname === '/registration' ? (
+      {location.pathname === '/' || location.pathname === '/registration' ? (
         <>
           <Outlet />
         </>
