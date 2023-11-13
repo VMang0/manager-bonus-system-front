@@ -25,9 +25,9 @@ export const navMenu = [
     path: '/projects',
   },
   {
-    name: 'Главная',
+    name: 'Managers',
     icon: <ChecklistOutlined />,
-    path: '/test',
+    path: '/managers',
   },
   {
     name: 'Главная',
