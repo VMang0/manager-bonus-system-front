@@ -266,6 +266,7 @@ export const themeSettings = (mode) => {
             },
             custom: {
               main: colors.grey['800'],
+              secondary: '#514f51',
             },
           }
         : {
@@ -283,6 +284,7 @@ export const themeSettings = (mode) => {
             },
             custom: {
               main: colors.grey['950'],
+              secondary: '#e0e0e0',
             },
           }),
     },

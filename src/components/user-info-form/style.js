@@ -34,11 +34,7 @@ const inputTextStyle = ({ theme }) => ({
 export const StyledUserInfoForm = styled(Box)(({ theme }) => ({
   width: '75%',
   margin: '0 auto',
-  border: `1px solid ${
-    theme.palette.mode === 'dark'
-      ? tokens(theme.palette.mode).black['500']
-      : tokens(theme.palette.mode).grey['300']
-  }`,
+  border: `1px solid ${theme.palette.custom.secondary}`,
   background: `${theme.palette.mode === 'dark' ? '#121212' : '#fff'}`,
   borderRadius: '20px',
   display: 'flex',

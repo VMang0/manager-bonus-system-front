@@ -1,15 +1,19 @@
 import { styled } from '@mui/system';
-import TableRow from '@mui/material/TableRow';
+import { Box } from '@mui/material';
 import { tokens } from '../../theme';
 
-export const RowTables = styled(TableRow)(({ theme }) => ({
-  '&:last-child td, &:last-child th': { border: 0 },
-  '&:hover': {
-    cursor: 'pointer',
-    background: `${
-      theme.palette.mode === 'dark'
-        ? tokens(theme.palette.mode).black['400']
-        : tokens(theme.palette.mode).grey['100']
-    }`,
+export const TableContainer = styled(Box)(({ theme }) => ({
+  height: '100%',
+  '.MuiDataGrid-root': {
+    borderRadius: '20px',
+  },
+  '.MuiSvgIcon-root': {
+    color: tokens(theme.palette.mode).darkBlue['200'],
+  },
+  '.css-hgslhe-MuiDataGrid-root .MuiDataGrid-row.Mui-selected': {
+    backgroundColor: `rgba(221,238,255, 0.1)`,
+  },
+  '.css-m15rfw-MuiDataGrid-root .MuiDataGrid-row.Mui-selected': {
+    backgroundColor: `rgba(221,238,255, 0.3)`,
   },
 }));
