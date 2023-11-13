@@ -1,4 +1,4 @@
 export const tableHeaderActivateUsers = [
-  { field: 'email', headerName: 'Email' },
-  { field: 'role', headerName: 'Role' },
+  { field: 'email', headerName: 'Email', width: 200 },
+  { field: 'role', headerName: 'Role', width: 200 },
 ];
