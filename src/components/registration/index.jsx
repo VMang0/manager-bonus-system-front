@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { StoreContext } from '../../index';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ContentCenter from '../../style-elements/content-center';
 import { AuthForm, AuthInput, AuthStyledComponent } from '../login/style';
 import CustomSelect from '../../elements/select/Select';
 import { observer } from 'mobx-react-lite';
 import CompanyService from '../../service/services/CompanyService';
 import { useAlert } from '../../elements/alert';
+import UserService from '../../service/services/UserService';
 
 const Registration = () => {
   const {
@@ -16,17 +17,30 @@ const Registration = () => {
     register,
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
-  const [companies, setCompanies] = useState();
-  const [chooseItem, setChooseItem] = useState();
+  const [companies, setCompanies] = useState('');
+  const [chooseItem, setChooseItem] = useState('');
   const { store } = useContext(StoreContext);
   const navigate = useNavigate();
   const { success, error } = useAlert();
+  const location = useLocation();
+  const isEmployeeVerify = location.pathname === '/registration';
 
   const registration = async ({ email, password }) => {
     try {
       await store.registration(email, password, chooseItem);
       navigate('/');
       success('Ожидайте подтверждение вашего менеджера!');
+    } catch (e) {
+      error(e);
+    }
+  };
+
+  const verifyManager = async ({ email, password }) => {
+    try {
+      const link = location.pathname.split('/')[2];
+      await UserService.verifyManager(link, email, password, chooseItem);
+      navigate('/');
+      success('Ваш аккаунт активирован!');
     } catch (e) {
       error(e);
     }
@@ -48,7 +62,11 @@ const Registration = () => {
   return (
     <AuthStyledComponent>
       <ContentCenter>
-        <AuthForm onSubmit={handleSubmit(registration)}>
+        <AuthForm
+          onSubmit={handleSubmit(
+            isEmployeeVerify ? registration : verifyManager,
+          )}
+        >
           <Typography variant='h1' className='auth-name'>
             Registration
           </Typography>
