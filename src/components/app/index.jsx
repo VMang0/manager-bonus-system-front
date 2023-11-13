@@ -12,6 +12,7 @@ import Registration from '../registration';
 import PageNotFound from '../no-page';
 import UsersForActivate from '../users-for-activate';
 import { AlertProvider } from '../../elements/alert';
+import ManagersList from '../managers-list';
 
 const App = () => {
   const [colorMode, theme] = useMode();
@@ -51,11 +52,13 @@ const App = () => {
                 >
                   <Route path='/projects' element={<ProjectsComponent />} />
                   <Route path='/user/activate' element={<UsersForActivate />} />
+                  <Route path='/managers' element={<ManagersList />} />
                 </Route>
                 <Route path='/registration' element={<Registration />} />
                 <Route path='/' element={<Login />} />
               </Route>
               <Route path='*' element={<PageNotFound />} />
+              <Route path='/registration/:link' element={<Registration />} />
             </Routes>
           </div>
         </ThemeProvider>
