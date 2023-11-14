@@ -14,19 +14,12 @@ const inputStyle = ({ theme }) => ({
   border: 'none',
   padding: '11px 16px',
   fontSize: '15px',
-  '&:-webkit-autofill': {
-    background: `${
-      theme.palette.mode === 'dark'
-        ? tokens(theme.palette.mode).black['500']
-        : tokens(theme.palette.mode).grey['100']
-    }`,
-  },
 });
-const inputTextStyle = ({ theme }) => ({
+const inputTextStyle = () => ({
   color: 'inherit',
   fontSize: '15px',
   '&::placeholder': {
-    color: tokens(theme.palette.mode).grey['600'],
+    color: 'inherit',
     fontSize: '15px',
   },
 });

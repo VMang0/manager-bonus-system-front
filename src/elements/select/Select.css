@@ -32,6 +32,8 @@
   background: linear-gradient(91deg, #FFFCFC 0%, #FFFCFC 0%, rgba(253.94, 253.94, 253.94, 0.8) 100%);
   z-index: 4;
   border-radius: 0 0 18px 18px;
+  max-height: 140px;
+  overflow-y: auto;
 }
 .options li {
   padding: 11px 16px;

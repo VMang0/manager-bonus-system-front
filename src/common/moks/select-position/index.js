@@ -11,6 +11,10 @@ export const SelectPosition = [
     _id: 3,
     name: 'Project Manager',
   },
+  {
+    _id: 4,
+    name: 'Devops',
+  },
 ];
 
 export const SelectRang = [

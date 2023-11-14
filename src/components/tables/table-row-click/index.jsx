@@ -2,7 +2,8 @@ import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { TableContainer } from './style';
 
-const TableComponent = ({ header, items, setItem, checkbox = false }) => {
+const TableComponent = (props) => {
+  const { header, items, setItem, checkbox = false } = props;
   const handleRowClick = (params) => {
     setItem(params.row);
   };

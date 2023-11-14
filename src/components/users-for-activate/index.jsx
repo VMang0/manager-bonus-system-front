@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import UserService from '../../service/services/UserService';
 import { StoreContext } from '../../index';
-import TableComponent from '../table';
-import { tableHeaderActivateUsers } from '../../common/moks/table-activate-users';
+import TableComponent from '../tables/table-row-click';
+import { tableHeaderActivateUsers } from '../../common/moks/table-headers';
 import UserInfoForm from '../user-info-form';
 import { UsersForActivateStyled } from './style';
 import { Box } from '@mui/material';

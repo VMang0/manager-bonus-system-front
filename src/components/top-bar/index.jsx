@@ -34,7 +34,7 @@ const TopBarComponent = () => {
           </StyledProjectsComponent>
         </FlexBetween>
         <Box className='flex'>
-          {pathname === '/' && (
+          {pathname === '/projects' && (
             <ButtonStartProject>
               <AddCircle />
               <Typography className='btn-text'>Start project</Typography>

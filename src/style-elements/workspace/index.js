@@ -10,5 +10,6 @@ const WorkSpace = styled(Box)(({ theme }) => ({
   }`,
   borderRadius: '20px 20px 0 0',
   padding: '30px',
+  height: '100%',
 }));
 export default WorkSpace;
