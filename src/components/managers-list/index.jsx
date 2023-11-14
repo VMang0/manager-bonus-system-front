@@ -1,73 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import { AuthInput } from '../login/style';
-import { Box, Button, Typography } from '@mui/material';
-import CustomSelect from '../../elements/select/Select';
-import { useForm } from 'react-hook-form';
-import { useAlert } from '../../elements/alert';
-import CompanyService from '../../service/services/CompanyService';
+import { Box, Typography } from '@mui/material';
 import UserService from '../../service/services/UserService';
+import { tableHeaderManagers } from '../../common/moks/table-headers';
+import SimpleTableComponent from '../tables/table-simple';
+import { ManagerListStyled, WorkPanel } from './style';
+import { ButtonStartProject } from '../top-bar/style';
+import { AddCircle } from '@mui/icons-material';
+import DarkFon from '../../style-elements/dark-fon';
+import ManagerVerifyInfo from '../manager-verify-form';
 
 const ManagersList = () => {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm({ mode: 'onBlur' });
-  const [companies, setCompanies] = useState('');
-  const [chooseItem, setChooseItem] = useState('');
-  const { success, error } = useAlert();
+  const [managers, setManagers] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const add = async ({ email }) => {
+  const getManagers = async () => {
     try {
-      await UserService.addManager(email, chooseItem);
-      success('Письмо отправлено руководителю на почту!');
-    } catch (e) {
-      error(e);
-    }
-  };
-
-  const getCompanies = async () => {
-    try {
-      const response = await CompanyService.fetchCompanies();
-      setCompanies(response.data);
+      const response = await UserService.fetchManagers();
+      setManagers(response);
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
-    getCompanies();
+    getManagers();
   }, []);
 
+  const managersData = managers.map((manager, index) => ({
+    number: index + 1,
+    ...manager,
+    name: manager.info.name,
+    lastname: manager.info.lastname,
+    company: manager.company.name,
+    position: manager.info.position,
+  }));
+
   return (
-    <form onSubmit={handleSubmit(add)}>
-      <Box className='input-container'>
-        <AuthInput
-          className={`${errors.email ? 'error-input' : ''}`}
-          placeholder='Email'
-          type='email'
-          {...register('email', {
-            required: 'The email field cannot be empty!',
-            pattern: {
-              value: /^\S+@\S+$/i,
-              message: 'Check your email input!',
-            },
-          })}
-        />
-        {errors.email && (
-          <Typography variant='h4'>{errors.email.message}</Typography>
+    <ManagerListStyled>
+      <Box className='workspace-manager-list'>
+        <WorkPanel>
+          <ButtonStartProject
+            className='btn-manager-list'
+            onClick={() => setIsFormOpen(!isFormOpen)}
+          >
+            <AddCircle />
+            <Typography className='btn-text'>Добавить менеджера</Typography>
+          </ButtonStartProject>
+        </WorkPanel>
+        <SimpleTableComponent
+          header={tableHeaderManagers}
+          items={managersData}
+        ></SimpleTableComponent>
+        {isFormOpen && (
+          <DarkFon>
+            <ManagerVerifyInfo setIsFormOpen={setIsFormOpen} />
+          </DarkFon>
         )}
       </Box>
-      <Box className='input-container'>
-        <CustomSelect
-          options={companies}
-          option={'организацию'}
-          setChooseItem={setChooseItem}
-          initialOption={chooseItem}
-        />
-      </Box>
-      <Button type='submit'>отправить письмо</Button>
-    </form>
+    </ManagerListStyled>
   );
 };
 
