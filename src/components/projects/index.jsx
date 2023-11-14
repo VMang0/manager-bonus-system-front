@@ -9,7 +9,7 @@ import { Projects } from '../../common/moks/projects/projects';
 import ProjectItem from '../progectItem';
 import { statistic } from '../../common/moks/statistic';
 import { HorizontalRule } from '@mui/icons-material';
-import FlexBetween from '../flex-between';
+import FlexBetween from '../../style-elements/flex-between';
 
 const ProjectsComponent = () => {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import FlexBetween from '../flex-between';
+import FlexBetween from '../../style-elements/flex-between';
 import { MoreHoriz } from '@mui/icons-material';
 import {
   ProjectDescription,

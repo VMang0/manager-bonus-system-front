@@ -5,7 +5,7 @@ import { tokens } from '../../theme';
 export const StyledTopBarComponent = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
-  padding: '24px 32px',
+  padding: '24px 15px',
   '.flex': {
     display: 'flex',
     '.container-notification': {
@@ -23,9 +23,11 @@ export const StyledTopBarComponent = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     height: '100%',
   },
+  h1: {
+    paddingRight: '30px',
+  },
 }));
 export const StyledProjectsComponent = styled(Grid)(({ theme }) => ({
-  paddingLeft: '30px',
   '.iconButton': {
     '&:hover': { background: 'transparent' },
   },

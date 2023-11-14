@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, AvatarGroup } from '@mui/material';
-import FlexBetween from '../../flex-between';
+import FlexBetween from '../../../style-elements/flex-between';
 import { AvatarsGroupStyled } from './style';
 
 const AvatarsGroup = () => {

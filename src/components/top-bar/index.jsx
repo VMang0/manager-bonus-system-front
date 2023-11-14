@@ -11,7 +11,7 @@ import { Search } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
 import { navMenu } from '../../common/moks/navigate';
 import { AddCircle } from '@mui/icons-material';
-import FlexBetween from '../flex-between';
+import FlexBetween from '../../style-elements/flex-between';
 
 const TopBarComponent = () => {
   const [activePage, setActivePage] = useState('');
@@ -34,7 +34,7 @@ const TopBarComponent = () => {
           </StyledProjectsComponent>
         </FlexBetween>
         <Box className='flex'>
-          {pathname === '/' && (
+          {pathname === '/projects' && (
             <ButtonStartProject>
               <AddCircle />
               <Typography className='btn-text'>Start project</Typography>

@@ -1,30 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Select.css';
-import { IoIosArrowDown } from 'react-icons/io';
-const CustomSelect = ({ options, option, setSelectedOptionId }) => {
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
+
+const CustomSelect = ({ options, option, setChooseItem, initialOption }) => {
+  const startState = `Выберите ${option}`;
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(`Выберите ${option}`);
+  const [selectedOption, setSelectedOption] = useState(
+    initialOption || startState,
+  );
 
   const toggleOptions = () => {
     setIsOpen(!isOpen);
   };
 
   const handleOptionClick = (option) => {
-    setSelectedOptionId(option._id);
+    setChooseItem(option.name);
     setSelectedOption(option.name);
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    setSelectedOption(initialOption || startState);
+  }, [initialOption]);
+
   return (
     <div className='custom-select'>
       <div
-        className={`selected-option margin-b-25 ${
-          isOpen && 'active-selected-option'
-        }`}
+        className={`selected-option ${isOpen && 'active-selected-option'}`}
         onClick={() => toggleOptions()}
       >
         {selectedOption}
-        <IoIosArrowDown className='icon-15 arrow' />
+        {isOpen ? (
+          <ArrowDropUp className='icon-15 arrow' />
+        ) : (
+          <ArrowDropDown className='icon-15 arrow' />
+        )}
       </div>
       {isOpen && (
         <ul className='options'>
@@ -38,5 +48,4 @@ const CustomSelect = ({ options, option, setSelectedOptionId }) => {
     </div>
   );
 };
-
 export default CustomSelect;

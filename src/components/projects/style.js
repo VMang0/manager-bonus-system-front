@@ -7,7 +7,7 @@ export const StyledProjectsComponent = styled(Box)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: '1fr minmax( auto, 18.4%)',
   gridGap: '10px',
-  paddingLeft: '10px',
+  padding: '0 15px',
   '.grid-container': {
     background: `${
       theme.palette.mode === 'dark'
