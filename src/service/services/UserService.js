@@ -43,4 +43,22 @@ export default class UserService {
       throw e.response?.data?.message;
     }
   }
+
+  static async getInfoAboutUser(id) {
+    try {
+      const response = await $api.get(`/user/${id}`);
+      return response.data;
+    } catch (e) {
+      throw e.response?.data?.message;
+    }
+  }
+
+  static async fetchManagers() {
+    try {
+      const response = await $api.get(`/manager/all`);
+      return response.data;
+    } catch (e) {
+      throw e.response?.data?.message;
+    }
+  }
 }
