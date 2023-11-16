@@ -12,10 +12,14 @@ import { useLocation } from 'react-router-dom';
 import { navMenu } from '../../common/moks/navigate';
 import { AddCircle } from '@mui/icons-material';
 import FlexBetween from '../../style-elements/flex-between';
+import DarkFon from '../../style-elements/dark-fon';
+import ProjectAddForm from '../project-add-form';
 
 const TopBarComponent = () => {
   const [activePage, setActivePage] = useState('');
   const { pathname } = useLocation();
+  const [isOpenForm, setIsOpenForm] = useState(false);
+
   useEffect(() => {
     navMenu.map((item) => {
       pathname === item.path && setActivePage(item.name);
@@ -35,7 +39,7 @@ const TopBarComponent = () => {
         </FlexBetween>
         <Box className='flex'>
           {pathname === '/projects' && (
-            <ButtonStartProject>
+            <ButtonStartProject onClick={() => setIsOpenForm(true)}>
               <AddCircle />
               <Typography className='btn-text'>Start project</Typography>
             </ButtonStartProject>
@@ -50,6 +54,11 @@ const TopBarComponent = () => {
           </Grid>
         </Box>
       </StyledTopBarComponent>
+      {isOpenForm && (
+        <DarkFon>
+          <ProjectAddForm setIsOpenForm={setIsOpenForm} />
+        </DarkFon>
+      )}
     </>
   );
 };
