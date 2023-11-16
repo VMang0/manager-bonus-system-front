@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './Select.css';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 
-const CustomSelect = ({ options, option, setChooseItem, initialOption }) => {
+const CustomSelect = ({
+  options,
+  option,
+  setChooseItem,
+  initialOption,
+  isSetId = false,
+}) => {
   const startState = `Выберите ${option}`;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(
@@ -14,7 +20,11 @@ const CustomSelect = ({ options, option, setChooseItem, initialOption }) => {
   };
 
   const handleOptionClick = (option) => {
-    setChooseItem(option.name);
+    if (isSetId) {
+      setChooseItem(option._id);
+    } else {
+      setChooseItem(option.name);
+    }
     setSelectedOption(option.name);
     setIsOpen(false);
   };
