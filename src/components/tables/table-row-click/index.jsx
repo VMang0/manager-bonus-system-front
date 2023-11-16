@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { TableContainer } from './style';
 
 const TableComponent = (props) => {
   const { header, items, setItem, checkbox = false } = props;
+  const [selectedRows] = useState([]);
   const handleRowClick = (params) => {
-    setItem(params.row);
+    if (!checkbox) {
+      setItem(params.row);
+    } else {
+      setItem(params);
+    }
   };
 
   return (
@@ -22,6 +27,8 @@ const TableComponent = (props) => {
         pageSizeOptions={[5, 10]}
         onRowClick={handleRowClick}
         checkboxSelection={checkbox}
+        selectionModel={selectedRows}
+        onRowSelectionModelChange={handleRowClick}
       />
     </TableContainer>
   );
