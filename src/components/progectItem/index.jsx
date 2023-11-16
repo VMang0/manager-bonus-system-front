@@ -12,12 +12,12 @@ import { Box } from '@mui/material';
 import AvatarsGroup from '../avatars/avatar-group';
 
 const ProjectItem = ({ project }) => {
-  const { name, description, status, priority } = project;
+  const { name, category, status, priority } = project;
   return (
     <ProjectsItem>
       <Box>
         <ProjectName>{name}</ProjectName>
-        <ProjectDescription>{description}</ProjectDescription>
+        <ProjectDescription>{category.name}</ProjectDescription>
       </Box>
       <Box>
         <FlexBetween sx={{ padding: '0 5px 8px 5px' }}>
@@ -28,7 +28,7 @@ const ProjectItem = ({ project }) => {
       </Box>
       <FlexBetween>
         <ProjectStatus status={status}>{status}</ProjectStatus>
-        <ProjectPriority>{priority} priority</ProjectPriority>
+        <ProjectPriority>{priority.name} priority</ProjectPriority>
       </FlexBetween>
       <FlexBetween>
         <ProjectPriority>5 days ago</ProjectPriority>
