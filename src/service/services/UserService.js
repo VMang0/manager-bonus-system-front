@@ -1,10 +1,6 @@
 import $api from '../http';
 
 export default class UserService {
-  static fetchUsers() {
-    return $api.get('/users');
-  }
-
   static async fetchUsersForActivate(company) {
     try {
       const response = await $api.get(`/users/activate/${company}`);
@@ -56,6 +52,15 @@ export default class UserService {
   static async fetchManagers() {
     try {
       const response = await $api.get(`/manager/all`);
+      return response.data;
+    } catch (e) {
+      throw e.response?.data?.message;
+    }
+  }
+
+  static async getEmployees(company) {
+    try {
+      const response = await $api.get(`/users/${company}`);
       return response.data;
     } catch (e) {
       throw e.response?.data?.message;
