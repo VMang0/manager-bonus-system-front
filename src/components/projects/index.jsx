@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ProjectStatistic,
   StatisticItem,
   StyledProjectsComponent,
 } from './style';
 import { Grid, Typography } from '@mui/material';
-import { Projects } from '../../common/moks/projects/projects';
 import ProjectItem from '../progectItem';
 import { statistic } from '../../common/moks/statistic';
 import { HorizontalRule } from '@mui/icons-material';
 import FlexBetween from '../../style-elements/flex-between';
+import { useProjectStore } from '../../service/services/ProjectService';
+import { useAlert } from '../../elements/alert';
 
 const ProjectsComponent = () => {
+  const { projects, fetchProjects } = useProjectStore();
+  const { error } = useAlert();
+
+  useEffect(() => {
+    fetchProjects().catch((e) => error(e));
+  }, []);
+
   return (
     <StyledProjectsComponent>
       <Grid container className='grid-container'>
-        {Projects.map((project, index) => (
+        {projects.map((project, index) => (
           <Grid item key={index} className='adaptive-grid'>
             <ProjectItem project={project} />
           </Grid>
