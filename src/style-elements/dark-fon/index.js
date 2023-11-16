@@ -5,7 +5,7 @@ const DarkFon = styled(Box)({
   position: 'fixed',
   top: 0,
   left: 0,
-  zIndex: 10000,
+  zIndex: 1299,
   minHeight: '100%',
   minWidth: '100%',
   display: 'flex',
