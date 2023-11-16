@@ -33,14 +33,16 @@ const BadgeAvatars = () => {
       >
         <Avatar alt='profile' src={''} />
       </StyledBadge>
-      <Grid className='avatars-text'>
-        <Typography className='avatars-lfp-names-text'>
-          {`${user?.lastname} ${user?.name}`}
-        </Typography>
-        <Typography variant='p' className='avatars-post-text'>
-          {`${user?.position} (${user?.rang})`}
-        </Typography>
-      </Grid>
+      {user && (
+        <Grid className='avatars-text'>
+          <Typography className='avatars-lfp-names-text'>
+            {`${user?.lastname} ${user?.name}`}
+          </Typography>
+          <Typography variant='p' className='avatars-post-text'>
+            {`${user?.position} (${user?.rang})`}
+          </Typography>
+        </Grid>
+      )}
     </StyledBadgeAvatars>
   );
 };
