@@ -121,6 +121,9 @@ export const tokens = (mode) => ({
           COMPLETED: '138, 214, 204',
           INPROGRESS: '116, 119, 169',
           OFFTRACK: '255, 153, 125',
+          HIGH: '60, 48, 100',
+          STRATEG: '39, 77, 95',
+          CRITIC: '3, 90, 100',
         },
       }
     : {
@@ -241,6 +244,9 @@ export const tokens = (mode) => ({
           COMPLETED: '138, 214, 204',
           INPROGRESS: '116, 119, 169',
           OFFTRACK: '255, 153, 125',
+          HIGH: '60, 48, 100',
+          STRATEG: '39, 77, 95',
+          CRITIC: '3, 90, 100',
         },
       }),
 });
