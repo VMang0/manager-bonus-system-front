@@ -4,16 +4,9 @@ import {
   DragIndicatorOutlined,
   PermIdentityOutlined,
   ShoppingBagOutlined,
-  ChecklistOutlined,
-  Settings,
 } from '@mui/icons-material';
 
-export const navMenu = [
-  {
-    name: 'Главная',
-    icon: <DragIndicatorOutlined />,
-    path: '/test',
-  },
+export const navMenuManager = [
   {
     name: 'Users',
     icon: <PermIdentityOutlined />,
@@ -24,14 +17,25 @@ export const navMenu = [
     icon: <ShoppingBagOutlined />,
     path: '/projects',
   },
+];
+
+export const navMenuAdmin = [
   {
-    name: 'Managers',
-    icon: <ChecklistOutlined />,
+    name: 'Список менеджеров',
+    icon: <DragIndicatorOutlined />,
     path: '/managers',
   },
   {
-    name: 'Главная',
-    icon: <Settings />,
-    path: '/test',
+    name: 'Projects',
+    icon: <ShoppingBagOutlined />,
+    path: '/projects',
+  },
+];
+
+export const navMenuEmployee = [
+  {
+    name: 'Projects',
+    icon: <ShoppingBagOutlined />,
+    path: '/projects',
   },
 ];
