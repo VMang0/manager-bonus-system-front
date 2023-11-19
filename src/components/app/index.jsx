@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ColorModeContext, useMode } from '../../theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../index';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import LayoutComponent from '../utils/layout';
 import ProjectsComponent from '../projects';
@@ -13,24 +12,26 @@ import PageNotFound from '../no-page';
 import UsersForActivate from '../users-for-activate';
 import { AlertProvider } from '../../elements/alert';
 import ManagersList from '../managers-list';
+import { useAuthStore } from '../../service/store/store';
 
 const App = () => {
   const [colorMode, theme] = useMode();
-  const { store } = useContext(StoreContext);
   const isRefreshToken = localStorage.getItem('token');
   const navigate = useNavigate();
+  const { checkAuth, isAuth, user } = useAuthStore();
 
-  useEffect(() => {
-    const checkAuthentication = async () => {
-      if (isRefreshToken) {
-        await store.checkAuth();
-        if (!store.isAuth) {
-          navigate('/');
-        }
-      } else {
+  const checkAuthentication = async () => {
+    if (isRefreshToken) {
+      await checkAuth();
+      if (isAuth) {
         navigate('/');
       }
-    };
+    } else {
+      navigate('/');
+    }
+  };
+
+  useEffect(() => {
     checkAuthentication();
   }, []);
 
@@ -45,8 +46,8 @@ const App = () => {
                 <Route
                   element={
                     <PrivateComponent
-                      isAuth={store.isAuth}
-                      isActivated={store.user.isActivated}
+                      isAuth={isAuth}
+                      isActivated={user.isActivated}
                     />
                   }
                 >

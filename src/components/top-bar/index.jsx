@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Grid, IconButton, InputBase, Typography } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import BadgeAvatars from '../avatars/badge-avatars';
@@ -18,18 +18,18 @@ import { AddCircle } from '@mui/icons-material';
 import FlexBetween from '../../style-elements/flex-between';
 import DarkFon from '../../style-elements/dark-fon';
 import ProjectAddForm from '../project-add-form';
-import { StoreContext } from '../../index';
 import { observer } from 'mobx-react-lite';
+import { useAuthStore } from '../../service/store/store';
 
 const TopBarComponent = () => {
   const [activePage, setActivePage] = useState('');
   const { pathname } = useLocation();
   const [isOpenForm, setIsOpenForm] = useState(false);
-  const { store } = useContext(StoreContext);
+  const { user } = useAuthStore();
   const navMenu =
-    store.user.role === 'manager'
+    user.role === 'manager'
       ? navMenuManager
-      : store.user.role === 'admin'
+      : user.role === 'admin'
       ? navMenuAdmin
       : navMenuEmployee || [];
 

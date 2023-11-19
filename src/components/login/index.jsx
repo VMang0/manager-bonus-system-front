@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { StoreContext } from '../../index';
 import { useNavigate } from 'react-router-dom';
 import { AuthForm, AuthInput, AuthStyledComponent } from './style';
 import ContentCenter from '../../style-elements/content-center';
 import { observer } from 'mobx-react-lite';
 import { useAlert } from '../../elements/alert';
+import { useAuthStore } from '../../service/store/store';
 
 const Login = () => {
   const {
@@ -14,13 +14,13 @@ const Login = () => {
     register,
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
-  const { store } = useContext(StoreContext);
+  const { login } = useAuthStore();
   const navigate = useNavigate();
   const { error } = useAlert();
 
-  const login = async ({ email, password }) => {
+  const Login = async (data) => {
     try {
-      await store.login(email, password);
+      await login(data);
       navigate('/projects');
     } catch (e) {
       error(e);
@@ -30,7 +30,7 @@ const Login = () => {
   return (
     <AuthStyledComponent>
       <ContentCenter>
-        <AuthForm onSubmit={handleSubmit(login)}>
+        <AuthForm onSubmit={handleSubmit(Login)}>
           <Typography variant='h1' className='auth-name'>
             Sign In
           </Typography>

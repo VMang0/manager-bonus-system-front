@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AddForm, ProjectAddFormStyled } from './style';
 import { InputContainer, StyledInput } from '../user-info-form/style';
 import { Box, Typography } from '@mui/material';
@@ -12,13 +12,13 @@ import TableComponent from '../tables/table-row-click';
 import { tableHeaderEmployees } from '../../common/moks/table-headers';
 import UserService from '../../service/services/UserService';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../index';
 import { useCategoryStore } from '../../service/services/CategoryService';
 import { ButtonStartProject } from '../top-bar/style';
 import { useAlert } from '../../elements/alert';
 import { useProjectStore } from '../../service/services/ProjectService';
 import { usePriorityStore } from '../../service/services/PriorityService';
 import { changeObjectsForTable } from '../../common/moks/projects/projects';
+import { useAuthStore } from '../../service/store/store';
 
 const ProjectAddForm = ({ setIsOpenForm }) => {
   const [employees, setEmployees] = useState([]);
@@ -28,7 +28,7 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
   const [idPriority, setIdPriority] = useState(null);
   const [dateStart, setDateStart] = useState(null);
   const [dateFinish, setDateFinish] = useState(null);
-  const { store } = useContext(StoreContext);
+  const { user } = useAuthStore();
   const { success, error } = useAlert();
   const { isLoading, createProject, fetchAllProjectsTeams } = useProjectStore();
   const [team, setTeam] = useState([]);
@@ -54,7 +54,7 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
       dateStart,
       dateFinish,
       pm: idPM,
-      creator: store.user.id,
+      creator: user.id,
       ...data,
       team,
     };
@@ -69,7 +69,7 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
 
   const getEmployees = async () => {
     try {
-      const response = await UserService.getEmployees(store.user.company);
+      const response = await UserService.getEmployees(user.company);
       const res = changeObjectsForTable(response);
       setPmUsers(res.PMs);
       setEmployees(res.users);

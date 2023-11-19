@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   GridStyled,
   ProjectStatistic,
@@ -12,8 +12,8 @@ import { HorizontalRule } from '@mui/icons-material';
 import FlexBetween from '../../style-elements/flex-between';
 import { useProjectStore } from '../../service/services/ProjectService';
 import { useAlert } from '../../elements/alert';
-import { StoreContext } from '../../index';
 import '../../style-elements/loader.css';
+import { useAuthStore } from '../../service/store/store';
 
 const ProjectsComponent = () => {
   const {
@@ -24,21 +24,21 @@ const ProjectsComponent = () => {
     fetchUsersProjects,
   } = useProjectStore();
   const { error } = useAlert();
-  const { store } = useContext(StoreContext);
+  const { user } = useAuthStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (store.user && store.user.id) {
-      if (store.user.role === 'manager') {
+    if (user.id) {
+      if (user.role === 'manager') {
         setLoading(false);
         fetchProjects().catch((e) => error(e));
       } else {
         setLoading(false);
-        fetchUsersProjects(store.user.id).catch((e) => error(e));
+        fetchUsersProjects(user.id).catch((e) => error(e));
       }
       fetchAllProjectsTeams().catch((e) => error(e));
     }
-  }, [store.isAuth]);
+  }, [user]);
 
   return (
     <StyledProjectsComponent>

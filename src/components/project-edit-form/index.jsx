@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AddForm, ProjectAddFormStyled } from './style';
 import { InputContainer, StyledInput } from '../user-info-form/style';
 import { Box, Typography } from '@mui/material';
@@ -7,7 +7,6 @@ import FlexBetween from '../../style-elements/flex-between';
 import { observer } from 'mobx-react-lite';
 import { ButtonStartProject } from '../top-bar/style';
 import UserService from '../../service/services/UserService';
-import { StoreContext } from '../../index';
 import Select from '../../elements/select-object/Select';
 import { useCategoryStore } from '../../service/services/CategoryService';
 import { usePriorityStore } from '../../service/services/PriorityService';
@@ -23,6 +22,7 @@ import {
   Statuses,
 } from '../../common/moks/projects/projects';
 import { useAlert } from '../../elements/alert';
+import { useAuthStore } from '../../service/store/store';
 
 const ProjectEditForm = ({ setIsOpenForm, project }) => {
   const [employees, setEmployees] = useState([]);
@@ -31,7 +31,7 @@ const ProjectEditForm = ({ setIsOpenForm, project }) => {
     _id: project.pm._id,
     name: `${project.pm.info.name} ${project.pm.info.lastname}`,
   });
-  const { store } = useContext(StoreContext);
+  const { user } = useAuthStore();
   const { categories, fetchCategories } = useCategoryStore();
   const { priorities, fetchPriorities } = usePriorityStore();
   const {
@@ -88,7 +88,7 @@ const ProjectEditForm = ({ setIsOpenForm, project }) => {
 
   const getEmployees = async () => {
     try {
-      const response = await UserService.getEmployees(store.user.company);
+      const response = await UserService.getEmployees(user.company);
       const res = changeObjectsForTable(response);
       setPmUsers(res.PMs);
       setEmployees(res.users);
