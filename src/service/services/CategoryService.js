@@ -1,12 +1,18 @@
 import $api from '../http';
+import { create } from 'zustand';
 
-export default class CategoryService {
-  static async fetchCategories() {
+export const useCategoryStore = create((set) => ({
+  categories: [],
+  isLoading: false,
+  fetchCategories: async () => {
     try {
+      set({ isLoading: true });
       const response = await $api.get(`/category/all`);
-      return response.data;
+      set({ categories: response.data });
     } catch (e) {
-      return e;
+      throw e.response?.data?.message;
+    } finally {
+      set({ isLoading: false });
     }
-  }
-}
+  },
+}));

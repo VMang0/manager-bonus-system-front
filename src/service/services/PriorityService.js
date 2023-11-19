@@ -1,12 +1,18 @@
 import $api from '../http';
+import { create } from 'zustand';
 
-export default class PriorityService {
-  static async fetchPriority() {
+export const usePriorityStore = create((set) => ({
+  priorities: [],
+  isLoading: false,
+  fetchPriorities: async () => {
     try {
+      set({ isLoading: true });
       const response = await $api.get(`/priority/all`);
-      return response.data;
+      set({ priorities: response.data });
     } catch (e) {
-      return e;
+      throw e.response?.data?.message;
+    } finally {
+      set({ isLoading: false });
     }
-  }
-}
+  },
+}));
