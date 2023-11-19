@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -13,14 +13,27 @@ import {
 } from '@mui/material';
 import { DrawerComponent } from './style';
 import FlexBetween from '../../style-elements/flex-between';
-import { navMenu } from '../../common/moks/navigate';
+import {
+  navMenuAdmin,
+  navMenuEmployee,
+  navMenuManager,
+} from '../../common/moks/navigate';
 import Logo from '../../static/images/logo';
 import ToggleComponent from '../../elements/toggle';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from '../../index';
 
 const SideBarComponent = ({ drawerWidth, isOpen, setIsOpen }) => {
   const [active, setActive] = useState('');
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { store } = useContext(StoreContext);
+  const navMenu =
+    store.user.role === 'manager'
+      ? navMenuManager
+      : store.user.role === 'admin'
+      ? navMenuAdmin
+      : navMenuEmployee || [];
   useEffect(() => {
     setActive(pathname);
   }, [pathname]);
@@ -80,4 +93,4 @@ const SideBarComponent = ({ drawerWidth, isOpen, setIsOpen }) => {
   );
 };
 
-export default SideBarComponent;
+export default observer(SideBarComponent);
