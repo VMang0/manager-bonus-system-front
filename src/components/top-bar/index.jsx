@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Grid, IconButton, InputBase, Typography } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import BadgeAvatars from '../avatars/badge-avatars';
@@ -9,16 +9,29 @@ import {
 } from './style';
 import { Search } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
-import { navMenu } from '../../common/moks/navigate';
+import {
+  navMenuAdmin,
+  navMenuEmployee,
+  navMenuManager,
+} from '../../common/moks/navigate';
 import { AddCircle } from '@mui/icons-material';
 import FlexBetween from '../../style-elements/flex-between';
 import DarkFon from '../../style-elements/dark-fon';
 import ProjectAddForm from '../project-add-form';
+import { StoreContext } from '../../index';
+import { observer } from 'mobx-react-lite';
 
 const TopBarComponent = () => {
   const [activePage, setActivePage] = useState('');
   const { pathname } = useLocation();
   const [isOpenForm, setIsOpenForm] = useState(false);
+  const { store } = useContext(StoreContext);
+  const navMenu =
+    store.user.role === 'manager'
+      ? navMenuManager
+      : store.user.role === 'admin'
+      ? navMenuAdmin
+      : navMenuEmployee || [];
 
   useEffect(() => {
     navMenu.map((item) => {
@@ -63,4 +76,4 @@ const TopBarComponent = () => {
   );
 };
 
-export default TopBarComponent;
+export default observer(TopBarComponent);
