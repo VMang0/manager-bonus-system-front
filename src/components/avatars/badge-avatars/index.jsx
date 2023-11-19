@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite';
 
 const BadgeAvatars = () => {
   const [user, setUser] = useState(null);
+  const [image, setImage] = useState('');
   const { store } = useContext(StoreContext);
 
   const getUserInfo = async () => {
@@ -21,6 +22,11 @@ const BadgeAvatars = () => {
   useEffect(() => {
     if (store.user && store.user.id) {
       getUserInfo();
+      setImage(
+        store.user.image
+          ? 'http://localhost:5000/' + store.user.image
+          : `${user?.lastname.charAt(0)}`,
+      );
     }
   }, [store.isAuth]);
 
@@ -31,7 +37,7 @@ const BadgeAvatars = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant='dot'
       >
-        <Avatar alt='profile' src={''} />
+        <Avatar alt={`${user?.lastname} ${user?.name}`} src={image} />
       </StyledBadge>
       {user && (
         <Grid className='avatars-text'>
