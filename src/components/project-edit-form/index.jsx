@@ -4,64 +4,83 @@ import { InputContainer, StyledInput } from '../user-info-form/style';
 import { Box, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FlexBetween from '../../style-elements/flex-between';
-import Select from '../../elements/select/Select';
+import { observer } from 'mobx-react-lite';
+import { ButtonStartProject } from '../top-bar/style';
+import UserService from '../../service/services/UserService';
+import { StoreContext } from '../../index';
+import Select from '../../elements/select-object/Select';
+import { useCategoryStore } from '../../service/services/CategoryService';
+import { usePriorityStore } from '../../service/services/PriorityService';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { HorizontalRule } from '@mui/icons-material';
+import dayjs from 'dayjs';
 import TableComponent from '../tables/table-row-click';
 import { tableHeaderEmployees } from '../../common/moks/table-headers';
-import UserService from '../../service/services/UserService';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../index';
-import { useCategoryStore } from '../../service/services/CategoryService';
-import { ButtonStartProject } from '../top-bar/style';
-import { useAlert } from '../../elements/alert';
 import { useProjectStore } from '../../service/services/ProjectService';
-import { usePriorityStore } from '../../service/services/PriorityService';
-import { changeObjectsForTable } from '../../common/moks/projects/projects';
+import {
+  changeObjectsForTable,
+  Statuses,
+} from '../../common/moks/projects/projects';
+import { useAlert } from '../../elements/alert';
 
-const ProjectAddForm = ({ setIsOpenForm }) => {
+const ProjectEditForm = ({ setIsOpenForm, project }) => {
   const [employees, setEmployees] = useState([]);
   const [pmUsers, setPmUsers] = useState([]);
-  const [idPM, setIdPM] = useState(null);
-  const [idCategory, setIdCategory] = useState(null);
-  const [idPriority, setIdPriority] = useState(null);
-  const [dateStart, setDateStart] = useState(null);
-  const [dateFinish, setDateFinish] = useState(null);
+  const [PM, setPM] = useState({
+    _id: project.pm._id,
+    name: `${project.pm.info.name} ${project.pm.info.lastname}`,
+  });
   const { store } = useContext(StoreContext);
-  const { success, error } = useAlert();
-  const { isLoading, createProject, fetchAllProjectsTeams } = useProjectStore();
-  const [team, setTeam] = useState([]);
   const { categories, fetchCategories } = useCategoryStore();
   const { priorities, fetchPriorities } = usePriorityStore();
+  const {
+    teamIds,
+    fetchProjectTeam,
+    setProjectTeam,
+    isLoading,
+    updateProject,
+    fetchAllProjectsTeams,
+  } = useProjectStore();
+  const [teams, setTeams] = useState([]);
+  const [category, setCategory] = useState(project.category);
+  const [priority, setPriority] = useState(project.priority);
+  const [status, setStatus] = useState({
+    _id: 0,
+    name: project.status,
+  });
+  const [dateStart, setDateStart] = useState(dayjs(project.dateStart));
+  const [dateFinish, setDateFinish] = useState(dayjs(project.dateFinish));
+  const { success, error } = useAlert();
+
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({ mode: 'onBlur' });
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      name: project.name,
+      customer: project.customer,
+    },
+  });
 
-  const errorMessage = (name) => {
-    if (errors[name]) {
-      return <Typography variant='h4'>{errors[name].message}</Typography>;
-    }
-    return null;
-  };
-
-  const addProject = async (data) => {
-    const project = {
-      category: idCategory,
-      priority: idPriority,
+  const editProject = async (data) => {
+    const newProject = {
+      ...project,
+      category: category,
+      priority: priority,
+      status: status.name,
       dateStart,
       dateFinish,
-      pm: idPM,
-      creator: store.user.id,
+      pm: PM,
       ...data,
-      team,
+      teamIds,
     };
-    createProject(project)
+    updateProject(newProject)
       .then(() => {
         setIsOpenForm(false);
-        success('Проект успешно создан!');
+        success('Проект успешно изменен!');
         fetchAllProjectsTeams();
       })
       .catch((e) => error(e));
@@ -82,15 +101,24 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
     getEmployees();
     fetchCategories();
     fetchPriorities();
+    fetchProjectTeam(project._id);
+    setTeams(teamIds);
   }, []);
 
   useEffect(() => {
-    setTeam(team);
-  }, [team]);
+    setTeams(teamIds);
+  }, [teamIds]);
+
+  const errorMessage = (name) => {
+    if (errors[name]) {
+      return <Typography variant='h4'>{errors[name].message}</Typography>;
+    }
+    return null;
+  };
 
   return (
     <ProjectAddFormStyled>
-      <AddForm onSubmit={handleSubmit(addProject)}>
+      <AddForm onSubmit={handleSubmit(editProject)}>
         <FlexBetween>
           <Typography variant='h3'>Название: </Typography>
           <InputContainer className='InputContainer'>
@@ -123,8 +151,8 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
             <Select
               options={pmUsers}
               option={'проектного менеджера'}
-              setChooseItem={setIdPM}
-              isSetId={true}
+              initialOption={PM}
+              setChooseItem={setPM}
             />
           </InputContainer>
         </FlexBetween>
@@ -134,8 +162,8 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
             <Select
               options={categories}
               option={'категорию'}
-              setChooseItem={setIdCategory}
-              isSetId={true}
+              initialOption={category}
+              setChooseItem={setCategory}
             />
           </InputContainer>
         </FlexBetween>
@@ -145,8 +173,19 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
             <Select
               options={priorities}
               option={'приоритет'}
-              setChooseItem={setIdPriority}
-              isSetId={true}
+              setChooseItem={setPriority}
+              initialOption={priority}
+            />
+          </InputContainer>
+        </FlexBetween>
+        <FlexBetween>
+          <Typography variant='h3'>Статус: </Typography>
+          <InputContainer className='InputContainer'>
+            <Select
+              options={Statuses}
+              option={'статус'}
+              setChooseItem={setStatus}
+              initialOption={status}
             />
           </InputContainer>
         </FlexBetween>
@@ -179,9 +218,9 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
         <TableComponent
           header={tableHeaderEmployees}
           items={employees}
-          setItem={setTeam}
+          setItem={setProjectTeam}
           checkbox={true}
-          checked={team}
+          checked={teams}
         />
         <Box className='btn-container'>
           <ButtonStartProject
@@ -192,7 +231,7 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
           </ButtonStartProject>
           <ButtonStartProject className='btn-send-email' type='submit'>
             <Typography className='btn-text'>
-              {isLoading ? 'Загрузка...' : 'Создать проект'}
+              {isLoading ? 'Загрузка...' : 'Изменить данные проекта'}
             </Typography>
           </ButtonStartProject>
         </Box>
@@ -201,4 +240,4 @@ const ProjectAddForm = ({ setIsOpenForm }) => {
   );
 };
 
-export default observer(ProjectAddForm);
+export default observer(ProjectEditForm);

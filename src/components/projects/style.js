@@ -2,12 +2,16 @@ import { styled } from '@mui/system';
 import { Box } from '@mui/material';
 import { tokens } from '../../theme';
 
-export const StyledProjectsComponent = styled(Box)(({ theme }) => ({
+export const StyledProjectsComponent = styled(Box)(() => ({
   minHeight: '100%',
   display: 'grid',
   gridTemplateColumns: '1fr minmax( auto, 18.4%)',
   gridGap: '10px',
   padding: '0 15px',
+}));
+
+export const GridStyled = styled(Box)(({ theme }) => ({
+  overflowY: 'auto',
   '.grid-container': {
     background: `${
       theme.palette.mode === 'dark'
@@ -21,6 +25,7 @@ export const StyledProjectsComponent = styled(Box)(({ theme }) => ({
     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
     gridGap: '1.5rem',
     gridAutoRows: '300px',
+    height: '100%',
   },
   '.adaptive-grid': {
     height: 'auto',

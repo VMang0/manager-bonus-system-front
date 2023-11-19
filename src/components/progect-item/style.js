@@ -11,6 +11,9 @@ export const ProjectsItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
+  '#btn-menu': {
+    cursor: 'pointer',
+  },
 }));
 export const ProjectName = styled(Box)(() => ({
   fontWeight: '700',
