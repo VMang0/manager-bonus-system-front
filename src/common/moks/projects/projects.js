@@ -1,62 +1,29 @@
-export const Projects = [
+export const Statuses = [
   {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'Completed',
-    priority: 'High',
+    _id: 1,
+    name: 'completed',
   },
   {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'Completed',
-    priority: 'High',
+    _id: 2,
+    name: 'in progress',
   },
   {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'Off track',
-    priority: 'High',
-  },
-  {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'In progress',
-    priority: 'High',
-  },
-  {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'Completed',
-    priority: 'High',
-  },
-  {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'Completed',
-    priority: 'High',
-  },
-  {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'Completed',
-    priority: 'High',
-  },
-  {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'Completed',
-    priority: 'High',
-  },
-  {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'Completed',
-    priority: 'High',
-  },
-  {
-    name: 'United Health Group',
-    description: 'Company Branding',
-    status: 'Completed',
-    priority: 'High',
+    _id: 3,
+    name: 'off track',
   },
 ];
+
+export const changeObjectsForTable = ({ pm, employees }) => {
+  const PMs = pm.map((manager) => ({
+    _id: manager._id,
+    name: `${manager.info.name} ${manager.info.lastname}`,
+  }));
+  const users = employees.map((employee) => ({
+    _id: employee._id,
+    name: employee.info.name,
+    lastname: employee.info.lastname,
+    position: employee.info.position,
+    rang: employee.info.rang,
+  }));
+  return { PMs, users };
+};

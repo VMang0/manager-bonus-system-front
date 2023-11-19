@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { StoreContext } from '../../index';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ContentCenter from '../../style-elements/content-center';
 import { AuthForm, AuthInput, AuthStyledComponent } from '../login/style';
@@ -10,6 +9,7 @@ import { observer } from 'mobx-react-lite';
 import CompanyService from '../../service/services/CompanyService';
 import { useAlert } from '../../elements/alert';
 import UserService from '../../service/services/UserService';
+import { useAuthStore } from '../../service/store/store';
 
 const Registration = () => {
   const {
@@ -19,15 +19,15 @@ const Registration = () => {
   } = useForm({ mode: 'onBlur' });
   const [companies, setCompanies] = useState('');
   const [chooseItem, setChooseItem] = useState('');
-  const { store } = useContext(StoreContext);
+  const { registration } = useAuthStore();
   const navigate = useNavigate();
   const { success, error } = useAlert();
   const location = useLocation();
   const isEmployeeVerify = location.pathname === '/registration';
 
-  const registration = async ({ email, password }) => {
+  const registr = async (userData) => {
     try {
-      await store.registration(email, password, chooseItem);
+      await registration({ ...userData, chooseItem });
       navigate('/');
       success('Ожидайте подтверждение вашего менеджера!');
     } catch (e) {
@@ -63,9 +63,7 @@ const Registration = () => {
     <AuthStyledComponent>
       <ContentCenter>
         <AuthForm
-          onSubmit={handleSubmit(
-            isEmployeeVerify ? registration : verifyManager,
-          )}
+          onSubmit={handleSubmit(isEmployeeVerify ? registr : verifyManager)}
         >
           <Typography variant='h1' className='auth-name'>
             Registration

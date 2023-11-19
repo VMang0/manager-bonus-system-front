@@ -9,13 +9,30 @@ import {
 } from './style';
 import { Search } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
-import { navMenu } from '../../common/moks/navigate';
+import {
+  navMenuAdmin,
+  navMenuEmployee,
+  navMenuManager,
+} from '../../common/moks/navigate';
 import { AddCircle } from '@mui/icons-material';
 import FlexBetween from '../../style-elements/flex-between';
+import DarkFon from '../../style-elements/dark-fon';
+import ProjectAddForm from '../project-add-form';
+import { observer } from 'mobx-react-lite';
+import { useAuthStore } from '../../service/store/store';
 
 const TopBarComponent = () => {
   const [activePage, setActivePage] = useState('');
   const { pathname } = useLocation();
+  const [isOpenForm, setIsOpenForm] = useState(false);
+  const { user } = useAuthStore();
+  const navMenu =
+    user.role === 'manager'
+      ? navMenuManager
+      : user.role === 'admin'
+      ? navMenuAdmin
+      : navMenuEmployee || [];
+
   useEffect(() => {
     navMenu.map((item) => {
       pathname === item.path && setActivePage(item.name);
@@ -35,7 +52,7 @@ const TopBarComponent = () => {
         </FlexBetween>
         <Box className='flex'>
           {pathname === '/projects' && (
-            <ButtonStartProject>
+            <ButtonStartProject onClick={() => setIsOpenForm(true)}>
               <AddCircle />
               <Typography className='btn-text'>Start project</Typography>
             </ButtonStartProject>
@@ -50,8 +67,13 @@ const TopBarComponent = () => {
           </Grid>
         </Box>
       </StyledTopBarComponent>
+      {isOpenForm && (
+        <DarkFon>
+          <ProjectAddForm setIsOpenForm={setIsOpenForm} />
+        </DarkFon>
+      )}
     </>
   );
 };
 
-export default TopBarComponent;
+export default observer(TopBarComponent);

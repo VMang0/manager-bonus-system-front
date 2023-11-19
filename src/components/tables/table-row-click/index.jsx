@@ -3,9 +3,16 @@ import { DataGrid } from '@mui/x-data-grid';
 import { TableContainer } from './style';
 
 const TableComponent = (props) => {
-  const { header, items, setItem, checkbox = false } = props;
+  const { header, items, setItem, checkbox = false, checked = [] } = props;
   const handleRowClick = (params) => {
-    setItem(params.row);
+    if (!checkbox) {
+      setItem(params.row);
+    }
+  };
+  const handleRowsSelect = (params) => {
+    if (checkbox) {
+      setItem(params);
+    }
   };
 
   return (
@@ -22,6 +29,8 @@ const TableComponent = (props) => {
         pageSizeOptions={[5, 10]}
         onRowClick={handleRowClick}
         checkboxSelection={checkbox}
+        rowSelectionModel={checked}
+        onRowSelectionModelChange={handleRowsSelect}
       />
     </TableContainer>
   );

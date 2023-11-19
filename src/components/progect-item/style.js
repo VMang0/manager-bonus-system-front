@@ -11,6 +11,9 @@ export const ProjectsItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
+  '#btn-menu': {
+    cursor: 'pointer',
+  },
 }));
 export const ProjectName = styled(Box)(() => ({
   fontWeight: '700',
@@ -24,7 +27,7 @@ export const ProjectStatus = styled(Box)(({ status, theme }) => ({
   borderRadius: '50px',
   fontSize: '13px',
   fontWeight: '700',
-  ...(status === 'Completed'
+  ...(status === 'completed'
     ? {
         backgroundColor: `rgba(${
           tokens(theme.palette.mode).status.COMPLETED
@@ -32,7 +35,7 @@ export const ProjectStatus = styled(Box)(({ status, theme }) => ({
         color: `rgb(${tokens(theme.palette.mode).status.COMPLETED})`,
       }
     : {
-        ...(status === 'In progress'
+        ...(status === 'in progress'
           ? {
               backgroundColor: `rgba(${
                 tokens(theme.palette.mode).status.INPROGRESS

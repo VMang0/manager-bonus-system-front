@@ -13,14 +13,27 @@ import {
 } from '@mui/material';
 import { DrawerComponent } from './style';
 import FlexBetween from '../../style-elements/flex-between';
-import { navMenu } from '../../common/moks/navigate';
+import {
+  navMenuAdmin,
+  navMenuEmployee,
+  navMenuManager,
+} from '../../common/moks/navigate';
 import Logo from '../../static/images/logo';
 import ToggleComponent from '../../elements/toggle';
+import { observer } from 'mobx-react-lite';
+import { useAuthStore } from '../../service/store/store';
 
 const SideBarComponent = ({ drawerWidth, isOpen, setIsOpen }) => {
   const [active, setActive] = useState('');
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuthStore();
+  const navMenu =
+    user.role === 'manager'
+      ? navMenuManager
+      : user.role === 'admin'
+      ? navMenuAdmin
+      : navMenuEmployee || [];
   useEffect(() => {
     setActive(pathname);
   }, [pathname]);
@@ -80,4 +93,4 @@ const SideBarComponent = ({ drawerWidth, isOpen, setIsOpen }) => {
   );
 };
 
-export default SideBarComponent;
+export default observer(SideBarComponent);

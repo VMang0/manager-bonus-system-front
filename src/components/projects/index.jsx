@@ -1,26 +1,65 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  GridStyled,
   ProjectStatistic,
   StatisticItem,
   StyledProjectsComponent,
 } from './style';
 import { Grid, Typography } from '@mui/material';
-import { Projects } from '../../common/moks/projects/projects';
-import ProjectItem from '../progectItem';
+import ProjectItem from '../progect-item';
 import { statistic } from '../../common/moks/statistic';
 import { HorizontalRule } from '@mui/icons-material';
 import FlexBetween from '../../style-elements/flex-between';
+import { useProjectStore } from '../../service/services/ProjectService';
+import { useAlert } from '../../elements/alert';
+import '../../style-elements/loader.css';
+import { useAuthStore } from '../../service/store/store';
 
 const ProjectsComponent = () => {
+  const {
+    projects,
+    fetchProjects,
+    allTeams,
+    fetchAllProjectsTeams,
+    fetchUsersProjects,
+  } = useProjectStore();
+  const { error } = useAlert();
+  const { user } = useAuthStore();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user.id) {
+      if (user.role === 'manager') {
+        setLoading(false);
+        fetchProjects().catch((e) => error(e));
+      } else {
+        setLoading(false);
+        fetchUsersProjects(user.id).catch((e) => error(e));
+      }
+      fetchAllProjectsTeams().catch((e) => error(e));
+    }
+  }, [user]);
+
   return (
     <StyledProjectsComponent>
-      <Grid container className='grid-container'>
-        {Projects.map((project, index) => (
-          <Grid item key={index} className='adaptive-grid'>
-            <ProjectItem project={project} />
-          </Grid>
-        ))}
-      </Grid>
+      <GridStyled>
+        <Grid container className='grid-container'>
+          {loading ? (
+            <div className='loader'></div>
+          ) : (
+            projects.map((project, index) => {
+              const teamForProject =
+                allTeams.find((teamEntry) => teamEntry._id === project._id)
+                  ?.team || [];
+              return (
+                <Grid item key={index} className='adaptive-grid'>
+                  <ProjectItem project={project} team={teamForProject} />
+                </Grid>
+              );
+            })
+          )}
+        </Grid>
+      </GridStyled>
       <ProjectStatistic>
         <Typography className='statistic-text'>Statistic:</Typography>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
